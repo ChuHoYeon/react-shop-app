@@ -75,6 +75,9 @@ $RECYCLE.BIN/
 .history/
 *.vsix
 
+# Antigravity IDE
+.agents/
+
 # JetBrains (IntelliJ, WebStorm, etc.)
 .idea/
 *.iml
