@@ -3,21 +3,30 @@ import Form from "../../../components/Form/Form";
 import { useNavigate } from "react-router-dom";
 import app from "@/firebase";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/user/user.slice";
 
 const SignUp = () => {
     const navigate = useNavigate();
     const [firebaseError, setFirebaseError] = useState("");
-
+    const dispatch = useDispatch();
     const auth = getAuth(app);
     const handleSignUpAndLogin = (email, password) => {
         createUserWithEmailAndPassword(auth, email, password)
-            .then((user) => {
+            .then((userCredential) => {
                 // redux store에 저장
+                dispatch(
+                    setUser({
+                        email: userCredential.user.email,
+                        token: userCredential.user.refreshToken,
+                        id: userCredential.user.uid,
+                    }),
+                );
                 navigate("/login");
             })
             .catch((error) => {
-                console.log("Error Code : " + error.code);
-                console.log("Error Message : " + error.message);
+                // console.log("Error Code : " + error.code);
+                // console.log("Error Message : " + error.message);
 
                 if (error.code == "auth/email-already-in-use")
                     return error && setFirebaseError("이미 존재하는 이메일입니다.");

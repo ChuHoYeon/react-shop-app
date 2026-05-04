@@ -3,16 +3,25 @@ import Form from "../../../components/Form/Form";
 import { useNavigate } from "react-router-dom";
 import app from "@/firebase";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/user/user.slice";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const [firebaseError, setFirebaseError] = useState("");
-
+    const dispatch = useDispatch();
     const auth = getAuth(app);
     const handleLogin = (email, password) => {
         signInWithEmailAndPassword(auth, email, password)
-            .then((user) => {
+            .then((userCredential) => {
                 // redux store에 저장
+                dispatch(
+                    setUser({
+                        email: userCredential.user.email,
+                        token: userCredential.user.refreshToken,
+                        id: userCredential.user.uid,
+                    }),
+                );
                 navigate("/");
             })
             .catch((error) => {
