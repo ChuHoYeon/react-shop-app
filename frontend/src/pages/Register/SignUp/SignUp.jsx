@@ -5,6 +5,7 @@ import app from "@/firebase";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/user/user.slice";
+import { setUserId } from "@/store/cart/cart.slice";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -22,12 +23,10 @@ const SignUp = () => {
                         id: userCredential.user.uid,
                     }),
                 );
+                dispatch(setUserId(userCredential.user.uid));
                 navigate("/login");
             })
             .catch((error) => {
-                // console.log("Error Code : " + error.code);
-                // console.log("Error Message : " + error.message);
-
                 if (error.code == "auth/email-already-in-use")
                     return error && setFirebaseError("이미 존재하는 이메일입니다.");
                 return error && setFirebaseError("이메일 또는 비밀번호가 잘못되었습니다.");
