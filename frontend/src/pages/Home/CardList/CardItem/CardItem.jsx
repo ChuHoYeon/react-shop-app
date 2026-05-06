@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./CardItem.module.scss";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { addToCart } from "@/store/cart/cart.slice";
+import { addToCart, deleteFromCart } from "@/store/cart/cart.slice";
 
 const CardItem = ({ item }) => {
     const { products } = useAppSelector((state) => state.cartSlice);
@@ -11,6 +11,9 @@ const CardItem = ({ item }) => {
 
     const addItemToCart = () => {
         dispatch(addToCart(item));
+    };
+    const deleteProduct = () => {
+        dispatch(deleteFromCart(item.id));
     };
 
     return (
@@ -22,9 +25,16 @@ const CardItem = ({ item }) => {
             <h5>{item.title.substring(0, 15)}...</h5>
 
             <div>
-                <button disabled={productMatching} onClick={() => !productMatching && addItemToCart()}>
+                {!productMatching ? (
+                    <button onClick={addItemToCart}>장바구니에 담기</button>
+                ) : (
+                    <button className={styles.disabled} onClick={deleteProduct}>
+                        장바구니에 담긴 제품
+                    </button>
+                )}
+                {/* <button disabled={productMatching} onClick={() => !productMatching && addItemToCart()}>
                     {productMatching ? "장바구니에 담긴 제품" : "장바구니에 담기"}
-                </button>
+                </button> */}
                 <p>${item.price}</p>
             </div>
         </li>

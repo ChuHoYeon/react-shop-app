@@ -60,7 +60,7 @@
             background: var(--second-color);
         }
 
-        &:disabled {
+        &.disabled {
             color: #ffff;
             background: var(--second-color);
         }
