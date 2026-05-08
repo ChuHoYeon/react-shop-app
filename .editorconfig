@@ -1,0 +1,23 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+# Backend - Java / Spring
+[*.{java,kt}]
+indent_size = 4
+tab_width = 4
+
+# Frontend - React / JS / TS / CSS / HTML
+[*.{js,jsx,ts,tsx,json,html,css,scss,vue}]
+indent_size = 2
+tab_width = 2
+
+# 설정 파일
+[*.{yml,yaml}]
+indent_size = 2
+tab_width = 2
