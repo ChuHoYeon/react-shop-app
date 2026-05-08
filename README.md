@@ -1,21 +1,27 @@
-# 🛒 React Shop App
+# React Shop App
 
-React 19와 Vite를 기반으로 구축된 쇼핑몰 프론트엔드 애플리케이션입니다.  
-전역 상태 관리(Redux Toolkit), 클라이언트 라우팅(React Router v7), 그리고 Firebase 연동을 포함한 견고한 아키텍처를 바탕으로 개발되었습니다.
+React 19, TypeScript, Vite를 기반으로 구축된 쇼핑몰 프론트엔드 애플리케이션입니다.
 
-## ✨ 주요 기능 (Features)
+Redux Toolkit 기반 전역 상태 관리, React Router v7 클라이언트 라우팅, Firebase Authentication, 외부 상품/주문 API 연동을 포함합니다.
+
+## 주요 기능 (Features)
 
 - **상품 목록 및 필터링**: 외부 API(FakeStoreAPI) 연동 및 카테고리별 상품 필터링 기능
-- **최적화된 UX**: 로딩 스켈레톤(Skeleton UI) 제공 및 부드러운 화면 전환
-- **최신 라우팅**: `createBrowserRouter`를 활용한 중첩 라우팅 및 공통 레이아웃(Layout) 적용
-- **전역 상태 관리**: Redux Toolkit을 활용한 장바구니(Cart), 유저(User), 상품(Products) 상태 관리
+- **상품 상세 페이지**: 개별 상품 조회 및 장바구니 담기 기능
+- **장바구니**: 상품 수량 변경, 삭제, 총액 계산, 빈 장바구니 화면 제공
+- **네비게이션 장바구니 미리보기**: Header에서 장바구니 상품 목록과 합계를 hover UI로 확인
+- **주문 및 주문 히스토리**: 로그인 사용자의 주문 전송 및 주문 내역 조회
+- **인증**: Firebase Authentication 기반 로그인/회원가입 및 인증 상태 관리
+- **라우팅**: `createBrowserRouter`를 활용한 중첩 라우팅 및 공통 레이아웃 적용
+- **TypeScript 전환**: 컴포넌트, Redux slice, 커스텀 훅에 타입 적용
 - **보안**: 환경 변수(`.env`)를 활용한 Firebase API 키 숨김 처리
 
-## 🛠 기술 스택 (Tech Stack)
+## 기술 스택 (Tech Stack)
 
 ### Core
 
 - **Framework**: React (v19)
+- **Language**: TypeScript
 - **Build Tool**: Vite (v8)
 - **Routing**: React Router DOM (v7)
 
@@ -33,28 +39,35 @@ React 19와 Vite를 기반으로 구축된 쇼핑몰 프론트엔드 애플리�
 ### Backend Services
 
 - **BaaS**: Firebase (Authentication)
+- **External APIs**: FakeStoreAPI, MockAPI
 
-## 📁 디렉토리 구조 (Folder Structure)
+### Quality
+
+- **Type Checking**: TypeScript (`tsc -b`)
+- **Linting**: ESLint, typescript-eslint, React Hooks ESLint
+
+## 디렉토리 구조 (Folder Structure)
 
 ```text
 react-shop-app/
 ├── frontend/
 │   ├── src/
 │   │   ├── assets/       # 정적 이미지 및 에셋
-│   │   ├── components/   # 재사용 가능한 공통 컴포넌트 (Header, Footer, Layout 등)
+│   │   ├── components/   # 재사용 가능한 공통 컴포넌트 (Header, Footer, Layout, Form 등)
 │   │   ├── hooks/        # 커스텀 훅 (useAppDispatch, useAppSelector)
-│   │   ├── pages/        # 라우팅되는 페이지 단위 컴포넌트 (Home, Cart, Login 등)
+│   │   ├── pages/        # 라우팅되는 페이지 단위 컴포넌트 (Home, Detail, Cart, Order 등)
 │   │   ├── store/        # Redux 스토어 및 Slice 모음 (Redux Toolkit)
-│   │   ├── App.jsx       # 라우터 설정 및 메인 진입점
-│   │   ├── main.jsx      # React DOM 렌더링 및 Redux Provider 설정
-│   │   └── firebase.js   # Firebase SDK 초기화 및 환경 변수 연동
+│   │   ├── App.tsx       # 라우터 설정
+│   │   ├── main.tsx      # React DOM 렌더링 및 Redux Provider 설정
+│   │   └── firebase.ts   # Firebase SDK 초기화 및 환경 변수 연동
 │   ├── .env              # 환경 변수 (Firebase 키 등 - Git 제외됨)
-│   ├── jsconfig.json     # 절대 경로(@/) 자동 완성 지원
-│   └── vite.config.js    # Vite 및 경로 Alias 설정
+│   ├── tsconfig*.json    # TypeScript 설정
+│   ├── eslint.config.js  # ESLint 설정
+│   └── vite.config.ts    # Vite 및 경로 Alias 설정
 └── .gitignore            # Git 버전 관리 예외 처리
 ```
 
-## 🚀 실행 방법 (Getting Started)
+## 실행 방법 (Getting Started)
 
 1. **저장소 클론 및 패키지 설치**
 
@@ -82,8 +95,18 @@ react-shop-app/
     ```
     이후 브라우저에서 `http://localhost:5173`으로 접속합니다.
 
-## 🤝 컨벤션 (Conventions)
+## 검증 명령어 (Verification)
+
+```bash
+npx tsc -b
+npm run lint
+npm run build
+```
+
+## 컨벤션 (Conventions)
 
 - **컴포넌트 및 폴더명**: `PascalCase` (예: `CardList`, `Header`)
-- **Redux Slice**: `Feature.slice.js` 형태의 명명 규칙 적용
+- **React 컴포넌트**: `.tsx` 확장자 사용
+- **Redux Slice**: `feature.slice.ts` 형태의 명명 규칙 적용
+- **타입 파일**: 도메인별 `*.type.ts` 파일 사용
 - **절대 경로**: `src/` 폴더 하위 접근 시 `@/` Alias 사용 (예: `@/components/...`)
